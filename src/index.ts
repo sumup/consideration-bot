@@ -1,6 +1,6 @@
 import { Application } from 'probot'; // eslint-disable-line no-unused-vars
 
-export default (app: Application) => {
+export = (app: Application) => {
   // @ts-ignore
   app.on('pull_request.labeled', async (context) => {
     const { title: name, body, head } = context.payload.pull_request;

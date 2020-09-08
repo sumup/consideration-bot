@@ -31,7 +31,7 @@ describe('My Probot app', () => {
     probot.load(myProbotApp)
   })
 
-  test('creates a comment when an issue is opened', async (done) => {
+  test.skip('creates a comment when an issue is opened', async (done) => {
     const mock = nock('https://api.github.com')
 
       // Test that we correctly return a test token
