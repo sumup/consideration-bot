@@ -9,7 +9,7 @@ export = (app: Application) => {
     const owner = context.payload.repository.owner.login;
     const repo = context.payload.repository.name;
 
-    if (/releases\/.+/g.test(ref) && labelName === 'bug') {
+    if (/releases\/.+/g.test(ref) && labelName === 'on staging') {
       // the convention for creating releases is releases/[year].[week].[releaseNumber]
       const releaseVersion = ref.split('/')[1];
       const tag_name = `v${releaseVersion}-01`;
