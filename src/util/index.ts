@@ -86,3 +86,26 @@ export async function reviewPr({
     event,
   });
 }
+
+
+export async function createDeployment({
+  context,
+}: {
+  context: Context;
+}) {
+  const { head } = context.payload.pull_request;
+  const labelName = context.payload.label.name;
+  const { ref } = head;
+  const owner = context.payload.repository.owner.login;
+  const repo = context.payload.repository.name;
+
+  if(labelName === 'create github deployment') {
+    context.github.repos.createDeployment({
+      owner,
+      repo,
+      ref,
+      environment: 'staging',
+      production_environment: false
+    });
+  }
+}

@@ -1,10 +1,11 @@
 import { Application } from 'probot';
-import { release, reviewPr } from './util';
+import { release, reviewPr, createDeployment } from './util';
 
 export = (app: Application) => {
   // @ts-ignore
   app.on('pull_request.labeled', async (context) => {
     try {
+      await createDeployment({ context });
       const { releaseStatus } = await release({ app, context });
 
       switch (releaseStatus) {
@@ -30,4 +31,3 @@ export = (app: Application) => {
     }
   });
 };
-
