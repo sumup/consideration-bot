@@ -89,7 +89,13 @@ export async function reviewPr({
   });
 }
 
-export async function createDeployment({ context }: { context: Context }) {
+export async function createDeployment({
+  context,
+  app,
+}: {
+  context: Context;
+  app: Application;
+}) {
   const labelName = context.payload.label.name;
   if (labelName !== 'create github deployment') {
     return;
@@ -100,11 +106,13 @@ export async function createDeployment({ context }: { context: Context }) {
   const owner = context.payload.repository.owner.login;
   const repo = context.payload.repository.name;
 
-  await context.github.repos.createDeployment({
+  const deployment = await context.github.repos.createDeployment({
     owner,
     repo,
     ref,
     environment: 'staging',
     production_environment: false,
   });
+
+  app.log(`Successfully created a deployment: ${JSON.stringify(deployment)}`);
 }

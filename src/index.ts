@@ -5,7 +5,7 @@ export = (app: Application) => {
   // @ts-ignore
   app.on('pull_request.labeled', async (context) => {
     try {
-      await createDeployment({ context });
+      await createDeployment({ context, app });
       const { releaseStatus } = await release({ app, context });
 
       switch (releaseStatus) {
