@@ -35,7 +35,9 @@ export async function release({
       );
 
       // transforms 2 => "02"
-      const newRedeployVersion = ('0' + (Number(redeployVersion) + 1)).slice(-2);
+      const newRedeployVersion = ('0' + (Number(redeployVersion) + 1)).slice(
+        -2
+      );
 
       await context.github.repos.updateRelease({
         repo,
@@ -87,25 +89,22 @@ export async function reviewPr({
   });
 }
 
-
-export async function createDeployment({
-  context,
-}: {
-  context: Context;
-}) {
-  const { head } = context.payload.pull_request;
+export async function createDeployment({ context }: { context: Context }) {
   const labelName = context.payload.label.name;
+  if (labelName !== 'create github deployment') {
+    return;
+  }
+
+  const { head } = context.payload.pull_request;
   const { ref } = head;
   const owner = context.payload.repository.owner.login;
   const repo = context.payload.repository.name;
 
-  if(labelName === 'create github deployment') {
-    context.github.repos.createDeployment({
-      owner,
-      repo,
-      ref,
-      environment: 'staging',
-      production_environment: false
-    });
-  }
+  await context.github.repos.createDeployment({
+    owner,
+    repo,
+    ref,
+    environment: 'staging',
+    production_environment: false,
+  });
 }
