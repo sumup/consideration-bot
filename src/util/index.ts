@@ -123,6 +123,6 @@ export async function createDeployment({
     repo,
     deployment_id: deploymentId,
     state: 'success',
-    environment_url: 'uk.sam-app.ro',
+    environment_url: 'https://uk.sam-app.ro',
   });
 }
