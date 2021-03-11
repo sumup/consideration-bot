@@ -106,7 +106,7 @@ export async function createDeployment({
   const owner = context.payload.repository.owner.login;
   const repo = context.payload.repository.name;
 
-  const deployment = await context.github.repos.createDeployment({
+  const deployment: any = await context.github.repos.createDeployment({
     owner,
     repo,
     ref,
@@ -114,5 +114,15 @@ export async function createDeployment({
     production_environment: false,
   });
 
-  app.log(`Successfully created a deployment: ${JSON.stringify(deployment)}`);
+  const deploymentId = deployment.data.id;
+
+  app.log(`Successfully created a deployment with the id: ${deploymentId}`);
+
+  await context.github.repos.createDeploymentStatus({
+    owner,
+    repo,
+    deployment_id: deploymentId,
+    state: 'success',
+    environment_url: 'uk.sam-app.ro',
+  });
 }
