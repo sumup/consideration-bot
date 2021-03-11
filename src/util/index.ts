@@ -112,6 +112,7 @@ export async function createDeployment({
     ref,
     environment: 'staging',
     production_environment: false,
+    required_contexts: []
   });
 
   const deploymentId = deployment.data.id;
