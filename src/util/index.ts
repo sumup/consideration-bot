@@ -97,7 +97,7 @@ export async function createDeployment({
   app: Application;
 }) {
   const labelName = context.payload.label.name;
-  if (labelName !== 'create github deployment') {
+  if (labelName !== 'on staging') {
     return;
   }
 
