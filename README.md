@@ -1,6 +1,6 @@
-# my-first-app
+# Consideration GitHub Bot
 
-> A GitHub App built with [Probot](https://github.com/probot/probot) that A Probot app
+> A GitHub App built with [Probot](https://github.com/probot/probot) that performs simple and repetitive tasks for the Consideration Squad, such as creating GitHub Deployments or Releases.
 
 ## Setup
 
@@ -14,13 +14,3 @@ npm run build
 # Run
 npm run start
 ```
-
-## Contributing
-
-If you have suggestions for how my-first-app could be improved, or want to report a bug, open an issue! We'd love all and any contributions.
-
-For more, check out the [Contributing Guide](CONTRIBUTING.md).
-
-## License
-
-[ISC](LICENSE) © 2020 Vladimir Turcan <vladimir.turcan@sumup.com>
