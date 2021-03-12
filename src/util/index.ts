@@ -97,7 +97,7 @@ export async function createDeployment({
   app: Application;
 }) {
   const labelName = context.payload.label.name;
-  if (labelName !== 'create github deployment') {
+  if (labelName !== 'on staging') {
     return;
   }
 
@@ -124,6 +124,6 @@ export async function createDeployment({
     repo,
     deployment_id: deploymentId,
     state: 'success',
-    environment_url: 'https://uk.sam-app.ro',
+    environment_url: 'https://br.sam-app.ro',
   });
 }
