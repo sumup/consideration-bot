@@ -70,6 +70,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.appHandler = void 0;
 var util_1 = __nccwpck_require__(65063);
 exports.appHandler = function (app) {
+    app.log("Yay! The app was loaded!");
     // @ts-ignore
     app.on('pull_request.labeled', function (context) { return __awaiter(void 0, void 0, void 0, function () {
         var releaseStatus, _a, error_1;
