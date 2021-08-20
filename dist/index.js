@@ -71,46 +71,50 @@ exports.appHandler = void 0;
 var util_1 = __nccwpck_require__(65063);
 exports.appHandler = function (app) {
     app.log("Yay! The app was loaded!");
+    app.log(app);
     // @ts-ignore
     app.on('pull_request.labeled', function (context) { return __awaiter(void 0, void 0, void 0, function () {
         var releaseStatus, _a, error_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _b.trys.push([0, 9, , 10]);
-                    return [4 /*yield*/, util_1.createDeployment({ context: context, app: app })];
+                    app.log("the pull request was labeled");
+                    _b.label = 1;
                 case 1:
+                    _b.trys.push([1, 10, , 11]);
+                    return [4 /*yield*/, util_1.createDeployment({ context: context, app: app })];
+                case 2:
                     _b.sent();
                     return [4 /*yield*/, util_1.release({ app: app, context: context })];
-                case 2:
+                case 3:
                     releaseStatus = (_b.sent()).releaseStatus;
                     _a = releaseStatus;
                     switch (_a) {
-                        case 'UPDATED': return [3 /*break*/, 3];
-                        case 'CREATED': return [3 /*break*/, 5];
+                        case 'UPDATED': return [3 /*break*/, 4];
+                        case 'CREATED': return [3 /*break*/, 6];
                     }
-                    return [3 /*break*/, 7];
-                case 3: return [4 /*yield*/, util_1.reviewPr({
+                    return [3 /*break*/, 8];
+                case 4: return [4 /*yield*/, util_1.reviewPr({
                         context: context,
                         body: 'Github Release successfully updated. Redeploy on staging is on the way.',
                     })];
-                case 4:
+                case 5:
                     _b.sent();
                     return [2 /*return*/, app.log('release has been updated')];
-                case 5: return [4 /*yield*/, util_1.reviewPr({
+                case 6: return [4 /*yield*/, util_1.reviewPr({
                         context: context,
                         body: 'Github Release successfully created. Deploy on staging is on the way.',
                     })];
-                case 6:
+                case 7:
                     _b.sent();
                     return [2 /*return*/, app.log('release has been created')];
-                case 7: return [2 /*return*/, app.log('nothing happened')];
-                case 8: return [3 /*break*/, 10];
-                case 9:
+                case 8: return [2 /*return*/, app.log('nothing happened')];
+                case 9: return [3 /*break*/, 11];
+                case 10:
                     error_1 = _b.sent();
                     app.log(error_1);
-                    return [3 /*break*/, 10];
-                case 10: return [2 /*return*/];
+                    return [3 /*break*/, 11];
+                case 11: return [2 /*return*/];
             }
         });
     }); });

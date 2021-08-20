@@ -3,8 +3,10 @@ import { release, reviewPr, createDeployment } from './util';
 
 export const appHandler = (app: Application) => {
   app.log("Yay! The app was loaded!");
+  app.log(app)
   // @ts-ignore
   app.on('pull_request.labeled', async (context) => {
+    app.log("the pull request was labeled");
     try {
       await createDeployment({ context, app });
       const { releaseStatus } = await release({ app, context });
