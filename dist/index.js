@@ -71,7 +71,6 @@ exports.appHandler = void 0;
 var util_1 = __nccwpck_require__(65063);
 exports.appHandler = function (app) {
     app.log("Yay! The app was loaded!");
-    app.log(app);
     // @ts-ignore
     app.on('pull_request.labeled', function (context) { return __awaiter(void 0, void 0, void 0, function () {
         var releaseStatus, _a, error_1;
@@ -257,9 +256,11 @@ function createDeployment(_a) {
             switch (_b.label) {
                 case 0:
                     labelName = context.payload.label.name;
+                    app.log("Found label name: " + labelName);
                     if (labelName !== 'on staging') {
                         return [2 /*return*/];
                     }
+                    app.log(context);
                     head = context.payload.pull_request.head;
                     ref = head.ref;
                     owner = context.payload.repository.owner.login;
@@ -270,7 +271,7 @@ function createDeployment(_a) {
                             ref: ref,
                             environment: 'staging',
                             production_environment: false,
-                            required_contexts: []
+                            required_contexts: [],
                         })];
                 case 1:
                     deployment = _b.sent();

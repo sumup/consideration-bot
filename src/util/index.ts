@@ -97,9 +97,13 @@ export async function createDeployment({
   app: Application;
 }) {
   const labelName = context.payload.label.name;
+  app.log(`Found label name: ${labelName}`);
+
   if (labelName !== 'on staging') {
     return;
   }
+
+  app.log(context);
 
   const { head } = context.payload.pull_request;
   const { ref } = head;
@@ -112,7 +116,7 @@ export async function createDeployment({
     ref,
     environment: 'staging',
     production_environment: false,
-    required_contexts: []
+    required_contexts: [],
   });
 
   const deploymentId = deployment.data.id;
