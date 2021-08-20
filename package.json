@@ -14,7 +14,7 @@
     "probot-app"
   ],
   "scripts": {
-    "build": "tsc && ncc build ./lib/action.js --license licenses.txt",
+    "build": "tsc && ncc build ./lib/action.js",
     "build:watch": "tsc --watch",
     "start": "probot run ./lib/index.js",
     "test": "jest"
