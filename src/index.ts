@@ -1,7 +1,7 @@
 import { Application } from 'probot';
 import { release, reviewPr, createDeployment } from './util';
 
-export = (app: Application) => {
+export const appHandler = (app: Application) => {
   // @ts-ignore
   app.on('pull_request.labeled', async (context) => {
     try {
