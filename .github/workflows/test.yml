@@ -18,8 +18,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           cache: npm
-      - run: npm ci
-      - run: npm run build
       - uses: ./ # Uses an action in the root directory
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

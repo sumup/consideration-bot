@@ -2,6 +2,7 @@ import { Application } from 'probot';
 import { release, reviewPr, createDeployment } from './util';
 
 export const appHandler = (app: Application) => {
+  app.log("Yay! The app was loaded!");
   // @ts-ignore
   app.on('pull_request.labeled', async (context) => {
     try {
