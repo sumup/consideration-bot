@@ -1,0 +1,5 @@
+name: "Consideration Deploy bot"
+description: "A bot built by consideration for enabling task automation"
+runs:
+  using: "node12"
+  main: "dist/index.js"
