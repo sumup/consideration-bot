@@ -1,8 +1,5 @@
-import { Application, Context } from 'probot'; // eslint-disable-line no-unused-vars
-
-interface IContext extends Context {
-  octokit?: Context['github'];
-}
+import { Application } from 'probot'; // eslint-disable-line no-unused-vars
+import { IContext } from '../types';
 
 export async function release({
   app,
@@ -22,12 +19,12 @@ export async function release({
 
   if (/releases\/.+/g.test(ref) && labelName === 'deploy to staging') {
     // search for releases
-    const releases = await context.octokit?.repos.listReleases({
+    const releases = await context.octokit.repos.listReleases({
       owner,
       repo,
     });
 
-    const currentRelease = releases?.data.find((rel) =>
+    const currentRelease = releases.data.find((rel) =>
       rel.tag_name.includes(releaseVersion)
     );
 
@@ -43,7 +40,7 @@ export async function release({
         -2
       );
 
-      await context.octokit?.repos.updateRelease({
+      await context.octokit.repos.updateRelease({
         repo,
         owner,
         release_id: currentRelease?.id,
@@ -56,7 +53,7 @@ export async function release({
       app.log('creating a release');
       const tag_name = `v${releaseVersion}-01`;
 
-      await context.octokit?.repos.createRelease({
+      await context.octokit.repos.createRelease({
         repo,
         owner,
         tag_name,
@@ -112,7 +109,7 @@ export async function createDeployment({
   const owner = context.payload.repository.owner.login;
   const repo = context.payload.repository.name;
 
-  const deployment: any = await context.octokit?.repos.createDeployment({
+  const deployment: any = await context.octokit.repos.createDeployment({
     owner,
     repo,
     ref,
@@ -125,7 +122,7 @@ export async function createDeployment({
 
   app.log(`Successfully created a deployment with the id: ${deploymentId}`);
 
-  await context.octokit?.repos.createDeploymentStatus({
+  await context.octokit.repos.createDeploymentStatus({
     owner,
     repo,
     deployment_id: deploymentId,

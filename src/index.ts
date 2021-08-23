@@ -1,10 +1,11 @@
 import { Application } from 'probot';
 import { release, reviewPr, createDeployment } from './util';
+import { IContext } from './types';
 
 export const appHandler = (app: Application) => {
   app.log("Yay! The app was loaded!");
   // @ts-ignore
-  app.on('pull_request.labeled', async (context) => {
+  app.on('pull_request.labeled', async (context: IContext) => {
     app.log("the pull request was labeled");
     try {
       await createDeployment({ context, app });
