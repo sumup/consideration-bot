@@ -1,6 +1,6 @@
 # Consideration Deploy Bot
 
-> A GitHub App built with [Probot](https://github.com/probot/probot)
+> A GitHub App built with [Probot](https://github.com/probot/probot).
 
 ## Setup
 
