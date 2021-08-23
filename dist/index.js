@@ -177,46 +177,47 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createDeployment = exports.reviewPr = exports.release = void 0;
 function release(_a) {
+    var _b, _c, _d;
     var app = _a.app, context = _a.context;
     return __awaiter(this, void 0, void 0, function () {
-        var _b, name, body, head, labelName, ref, owner, repo, releaseVersion, releases, currentRelease, _c, baseVersion, redeployVersion, newRedeployVersion, tag_name;
-        return __generator(this, function (_d) {
-            switch (_d.label) {
+        var _e, name, body, head, labelName, ref, owner, repo, releaseVersion, releases, currentRelease, _f, baseVersion, redeployVersion, newRedeployVersion, tag_name;
+        return __generator(this, function (_g) {
+            switch (_g.label) {
                 case 0:
-                    _b = context.payload.pull_request, name = _b.title, body = _b.body, head = _b.head;
+                    _e = context.payload.pull_request, name = _e.title, body = _e.body, head = _e.head;
                     labelName = context.payload.label.name;
                     ref = head.ref;
                     owner = context.payload.repository.owner.login;
                     repo = context.payload.repository.name;
                     releaseVersion = ref.split('/')[1];
                     if (!(/releases\/.+/g.test(ref) && labelName === 'deploy to staging')) return [3 /*break*/, 5];
-                    return [4 /*yield*/, context.github.repos.listReleases({
+                    return [4 /*yield*/, ((_b = context.octokit) === null || _b === void 0 ? void 0 : _b.repos.listReleases({
                             owner: owner,
                             repo: repo,
-                        })];
+                        }))];
                 case 1:
-                    releases = _d.sent();
-                    currentRelease = releases.data.find(function (rel) {
+                    releases = _g.sent();
+                    currentRelease = releases === null || releases === void 0 ? void 0 : releases.data.find(function (rel) {
                         return rel.tag_name.includes(releaseVersion);
                     });
                     if (!currentRelease) return [3 /*break*/, 3];
                     app.log('updating a release');
-                    _c = currentRelease === null || currentRelease === void 0 ? void 0 : currentRelease.tag_name.split('-'), baseVersion = _c[0], redeployVersion = _c[1];
+                    _f = currentRelease === null || currentRelease === void 0 ? void 0 : currentRelease.tag_name.split('-'), baseVersion = _f[0], redeployVersion = _f[1];
                     newRedeployVersion = ('0' + (Number(redeployVersion) + 1)).slice(-2);
-                    return [4 /*yield*/, context.github.repos.updateRelease({
+                    return [4 /*yield*/, ((_c = context.octokit) === null || _c === void 0 ? void 0 : _c.repos.updateRelease({
                             repo: repo,
                             owner: owner,
                             release_id: currentRelease === null || currentRelease === void 0 ? void 0 : currentRelease.id,
                             tag_name: baseVersion + "-" + newRedeployVersion,
                             body: body,
-                        })];
+                        }))];
                 case 2:
-                    _d.sent();
+                    _g.sent();
                     return [2 /*return*/, { releaseStatus: 'UPDATED' }];
                 case 3:
                     app.log('creating a release');
                     tag_name = "v" + releaseVersion + "-01";
-                    return [4 /*yield*/, context.github.repos.createRelease({
+                    return [4 /*yield*/, ((_d = context.octokit) === null || _d === void 0 ? void 0 : _d.repos.createRelease({
                             repo: repo,
                             owner: owner,
                             tag_name: tag_name,
@@ -225,9 +226,9 @@ function release(_a) {
                             body: body,
                             draft: false,
                             prerelease: false,
-                        })];
+                        }))];
                 case 4:
-                    _d.sent();
+                    _g.sent();
                     return [2 /*return*/, { releaseStatus: 'CREATED' }];
                 case 5: return [2 /*return*/, { releaseStatus: 'N/A' }];
             }
@@ -236,56 +237,57 @@ function release(_a) {
 }
 exports.release = release;
 function reviewPr(_a) {
-    var context = _a.context, body = _a.body, _b = _a.event, event = _b === void 0 ? 'APPROVE' : _b;
+    var _b;
+    var context = _a.context, body = _a.body, _c = _a.event, event = _c === void 0 ? 'APPROVE' : _c;
     return __awaiter(this, void 0, void 0, function () {
         var prReview;
-        return __generator(this, function (_c) {
+        return __generator(this, function (_d) {
             prReview = context.pullRequest({
                 body: body,
             });
-            return [2 /*return*/, context.github.pulls.createReview(__assign(__assign({}, prReview), { event: event }))];
+            return [2 /*return*/, (_b = context.octokit) === null || _b === void 0 ? void 0 : _b.pulls.createReview(__assign(__assign({}, prReview), { event: event }))];
         });
     });
 }
 exports.reviewPr = reviewPr;
 function createDeployment(_a) {
+    var _b, _c;
     var context = _a.context, app = _a.app;
     return __awaiter(this, void 0, void 0, function () {
         var labelName, head, ref, owner, repo, deployment, deploymentId;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        return __generator(this, function (_d) {
+            switch (_d.label) {
                 case 0:
                     labelName = context.payload.label.name;
                     app.log("Found label name: " + labelName);
                     if (labelName !== 'on staging') {
                         return [2 /*return*/];
                     }
-                    app.log(context);
                     head = context.payload.pull_request.head;
                     ref = head.ref;
                     owner = context.payload.repository.owner.login;
                     repo = context.payload.repository.name;
-                    return [4 /*yield*/, context.github.repos.createDeployment({
+                    return [4 /*yield*/, ((_b = context.octokit) === null || _b === void 0 ? void 0 : _b.repos.createDeployment({
                             owner: owner,
                             repo: repo,
                             ref: ref,
                             environment: 'staging',
                             production_environment: false,
                             required_contexts: [],
-                        })];
+                        }))];
                 case 1:
-                    deployment = _b.sent();
+                    deployment = _d.sent();
                     deploymentId = deployment.data.id;
                     app.log("Successfully created a deployment with the id: " + deploymentId);
-                    return [4 /*yield*/, context.github.repos.createDeploymentStatus({
+                    return [4 /*yield*/, ((_c = context.octokit) === null || _c === void 0 ? void 0 : _c.repos.createDeploymentStatus({
                             owner: owner,
                             repo: repo,
                             deployment_id: deploymentId,
                             state: 'success',
                             environment_url: 'https://br.sam-app.ro',
-                        })];
+                        }))];
                 case 2:
-                    _b.sent();
+                    _d.sent();
                     return [2 /*return*/];
             }
         });
