@@ -15,6 +15,30 @@ Currently the workflow is triggered only on Pull Request Labeled and it filters 
 ## Testing
 Currently the only way to develop this is to run the workflow locally on the repository level. For that please check the [test workflow](.github/workflows/test.yml).
 
+## Usage
+```yml
+name: Deploy Bot
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  pull_request:
+    types: [ labeled ]
+
+jobs:
+  test_job:
+    runs-on: ubuntu-latest
+    name: A bot to react to labels
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - uses: actions/consideration-deploy-bot@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+```
+
 ## License
 
 [ISC](LICENSE) © 2020 Vladimir Turcan <vladimir.turcan@sumup.com>
