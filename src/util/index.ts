@@ -123,6 +123,7 @@ export async function createDeployment({
 
   const deploymentId = deployment.data.id;
 
+  app.log(deployment);
   app.log(`Successfully created a deployment with the id: ${deploymentId}`);
 
   await context.octokit?.repos.createDeploymentStatus({

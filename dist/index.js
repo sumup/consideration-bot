@@ -278,6 +278,7 @@ function createDeployment(_a) {
                 case 1:
                     deployment = _d.sent();
                     deploymentId = deployment.data.id;
+                    app.log(deployment);
                     app.log("Successfully created a deployment with the id: " + deploymentId);
                     return [4 /*yield*/, ((_c = context.octokit) === null || _c === void 0 ? void 0 : _c.repos.createDeploymentStatus({
                             owner: owner,
