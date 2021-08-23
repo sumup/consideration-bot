@@ -1,11 +1,15 @@
 import { Application, Context } from 'probot'; // eslint-disable-line no-unused-vars
 
+interface IContext extends Context {
+  octokit?: Context['github'];
+}
+
 export async function release({
   app,
   context,
 }: {
   app: Application;
-  context: Context;
+  context: IContext
 }) {
   const { title: name, body, head } = context.payload.pull_request;
   const labelName = context.payload.label.name;
@@ -18,12 +22,12 @@ export async function release({
 
   if (/releases\/.+/g.test(ref) && labelName === 'deploy to staging') {
     // search for releases
-    const releases = await context.github.repos.listReleases({
+    const releases = await context.octokit?.repos.listReleases({
       owner,
       repo,
     });
 
-    const currentRelease = releases.data.find((rel) =>
+    const currentRelease = releases?.data.find((rel) =>
       rel.tag_name.includes(releaseVersion)
     );
 
@@ -39,7 +43,7 @@ export async function release({
         -2
       );
 
-      await context.github.repos.updateRelease({
+      await context.octokit?.repos.updateRelease({
         repo,
         owner,
         release_id: currentRelease?.id,
@@ -52,7 +56,7 @@ export async function release({
       app.log('creating a release');
       const tag_name = `v${releaseVersion}-01`;
 
-      await context.github.repos.createRelease({
+      await context.octokit?.repos.createRelease({
         repo,
         owner,
         tag_name,
@@ -75,7 +79,7 @@ export async function reviewPr({
   body,
   event = 'APPROVE',
 }: {
-  context: Context;
+  context: IContext
   body: string;
   event?: 'APPROVE' | 'REQUEST_CHANGES' | 'COMMENT';
 }): Promise<any> {
@@ -83,7 +87,7 @@ export async function reviewPr({
     body,
   });
 
-  return context.github.pulls.createReview({
+  return context.octokit?.pulls.createReview({
     ...prReview,
     event,
   });
@@ -93,7 +97,7 @@ export async function createDeployment({
   context,
   app,
 }: {
-  context: Context;
+  context: IContext
   app: Application;
 }) {
   const labelName = context.payload.label.name;
@@ -103,14 +107,12 @@ export async function createDeployment({
     return;
   }
 
-  app.log(context);
-
   const { head } = context.payload.pull_request;
   const { ref } = head;
   const owner = context.payload.repository.owner.login;
   const repo = context.payload.repository.name;
 
-  const deployment: any = await context.github.repos.createDeployment({
+  const deployment: any = await context.octokit?.repos.createDeployment({
     owner,
     repo,
     ref,
@@ -123,7 +125,7 @@ export async function createDeployment({
 
   app.log(`Successfully created a deployment with the id: ${deploymentId}`);
 
-  await context.github.repos.createDeploymentStatus({
+  await context.octokit?.repos.createDeploymentStatus({
     owner,
     repo,
     deployment_id: deploymentId,
