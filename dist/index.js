@@ -209,7 +209,7 @@ function release(_a) {
                             owner: owner,
                             release_id: currentRelease === null || currentRelease === void 0 ? void 0 : currentRelease.id,
                             tag_name: baseVersion + "-" + newRedeployVersion,
-                            body: body,
+                            body: body || '',
                         }))];
                 case 2:
                     _g.sent();
@@ -223,7 +223,7 @@ function release(_a) {
                             tag_name: tag_name,
                             target_commitish: ref,
                             name: name,
-                            body: body,
+                            body: body || '',
                             draft: false,
                             prerelease: false,
                         }))];

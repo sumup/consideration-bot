@@ -48,7 +48,7 @@ export async function release({
         owner,
         release_id: currentRelease?.id,
         tag_name: `${baseVersion}-${newRedeployVersion}`,
-        body,
+        body: body || '',
       });
 
       return { releaseStatus: 'UPDATED' };
@@ -62,7 +62,7 @@ export async function release({
         tag_name,
         target_commitish: ref,
         name,
-        body,
+        body: body || '',
         draft: false,
         prerelease: false,
       });
