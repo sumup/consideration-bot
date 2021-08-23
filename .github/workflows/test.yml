@@ -15,5 +15,9 @@ jobs:
       # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Hello world action step
-        uses: ./ # Uses an action in the root directory
+      - uses: actions/setup-node@v2
+        with:
+          cache: npm
+      - uses: ./ # Uses an action in the root directory
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

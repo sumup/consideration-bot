@@ -1,9 +1,8 @@
 // @ts-nocheck
-const { run } = require('@probot/adapter-github-actions')
+import { run } from '@probot/adapter-github-actions';
+import { appHandler } from './index';
 
-const app = require("./app");
-
-run(app).catch((error) => {
+run(appHandler).catch((error) => {
   console.error(error);
   process.exit(1);
 });
