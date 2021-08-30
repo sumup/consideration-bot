@@ -17,7 +17,7 @@ Currently the only way to develop this is to run the workflow locally on the rep
 
 ## Usage
 ```yml
-name: Deploy Bot
+name: Consideration Bot
 
 # Controls when the workflow will run
 on:
@@ -33,7 +33,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-      - uses: actions/consideration-deploy-bot@v1
+      - uses: actions/consideration-bot@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
