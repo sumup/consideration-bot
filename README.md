@@ -33,7 +33,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-      - uses: actions/consideration-bot@v1
+      - uses: sumup/consideration-bot@v1.0.0 # check for the latest version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
